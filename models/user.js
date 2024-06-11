@@ -25,13 +25,20 @@ const userSchema = mongoose.Schema({
   },
   type: {
     type: String,
-    default: "pasajero",
+    required: true,
   },
   token: {
     type: String,
   },
+  modoOscuro: {
+    type: Boolean,
+    default: false,
+  },
+  verificacion: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-//modelo
 const User = mongoose.model("users", userSchema);
-module.exports = User;
+module.exports = { User, userSchema };

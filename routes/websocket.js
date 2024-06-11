@@ -1,6 +1,8 @@
 const WebSocket = require("ws");
 const { Linea } = require("../models/linea");
 const { Location } = require("../models/ubicacion");
+const { User } = require("../models/user");
+const { Codigo } = require("../models/codigo");
 
 const checkAndSendChanges = async (lineasWss) => {
   try {
@@ -16,6 +18,8 @@ const checkAndSendChanges = async (lineasWss) => {
     console.error("Error:", error);
   }
 };
+
+
 const checkAndSendChanges2 = async (locationWss) => {
   try {
     const locations = await Location.find({});
@@ -28,6 +32,36 @@ const checkAndSendChanges2 = async (locationWss) => {
     console.log("When la mandas2");
   } catch (error) {
     console.error("Error2:", error);
+  }
+};
+
+const checkAndSendChanges3 = async (userWss) => {
+  try {
+    const usuarios = await User.find({});
+    const jsonData = JSON.stringify(usuarios);
+    userWss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(jsonData);
+      }
+    });
+    console.log("When la mandas3");
+  } catch (error) {
+    console.error("Error3:", error);
+  }
+};
+
+const checkAndSendChanges4 = async (codigoWss) => {
+  try {
+    const codigos = await Codigo.find({});
+    const jsonData = JSON.stringify(codigos);
+    codigoWss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(jsonData);
+      }
+    });
+    console.log("Mandando Codigos");
+  } catch (error) {
+    console.error("Error3:", error);
   }
 };
 
@@ -45,5 +79,5 @@ const handleWebSocketConnection = (wss) => {
   });
 };
 
-module.exports = { checkAndSendChanges,checkAndSendChanges2, handleWebSocketConnection };
+module.exports = { checkAndSendChanges,checkAndSendChanges2,checkAndSendChanges3,checkAndSendChanges4, handleWebSocketConnection };
 
