@@ -37,7 +37,6 @@
     try {
       const { name, latitude, longitude, id_usuario } = req.body;
   
-      // Consulta a la colección de codigos para encontrar el idpadre
       const codigo = await Codigo.findOne({ idpadre: id_usuario });
   
       if (!codigo) {

@@ -38,16 +38,13 @@ authRouter.post("/codigo/codigo-generado", async (req, res) => {
         return res.status(404).json({ msg: "Codigo not found!" });
       }
   
-      // Check if idpadre is already associated with this idhijo
       if (existingCodigo.idpadre && existingCodigo.idpadre === idpadre) {
         return res.status(400).json({ msg: "idpadre already associated with this idhijo!" });
       }
   
-      // Associate idpadre
       existingCodigo.idpadre = idpadre;
       await existingCodigo.save();
   
-      // Update the document to remove the value of the 'codigo' field
       await Codigo.updateOne({ codigo }, { $unset: { codigo: "" } });
   
       res.json({ msg: "Codigo asociado correctamente", existingCodigo });

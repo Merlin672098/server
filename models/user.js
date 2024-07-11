@@ -38,6 +38,10 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  oneSignalPlayerId: {
+    type: String,
+    default: null,
+  },
 });
 
 const User = mongoose.model("users", userSchema);
